@@ -12,7 +12,7 @@ pipeline {
 
         stage('Run Script') {
             steps {
-                sh 'python my_script.py'
+                sh 'python -m flask run'
             }
         }
     }
