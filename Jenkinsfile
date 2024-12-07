@@ -20,9 +20,10 @@ pipeline {
                 sh '''
                     bash -c "
                     source myenv/bin/activate && 
-                    python -m flask run
+                    nohup python -m flask run
                     "
                     '''
+                echo 'Flask app is running in the background...'
             }
         }
     }
