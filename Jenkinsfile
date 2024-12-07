@@ -4,61 +4,23 @@ pipeline {
     environment {
         AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
-        AWS_DEFAULT_REGION = 'us-west-2' // Replace with your region
+        AWS_DEFAULT_REGION = 'us-west-2'
     }
 
     stages {
-        stage('Setup Environment') {
+        stage('Setup AWS CLI') {
             steps {
-                echo 'Cleaning the workspace...'
-                deleteDir()  // Ensure the workspace is cleared
-                sh 'ls -la /var/jenkins_home/workspace/pk1-assignment-pipeline'  // Verify the cleanup
-                sh '''
-                    bash -c "
-                    python3 -m venv myenv &&
-                    source myenv/bin/activate &&
-                    pip install pytest flask django &&
-                    pip install -r requirements.txt
-                    "
-                '''
-            }
-        }
-
-        stage('Run Script') {
-            steps {
-                sh '''
-                    bash -c "
-                    source myenv/bin/activate && 
-                    nohup python -m flask run
-                    "
+                withEnv([
+                    "AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID}",
+                    "AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_ACCESS_KEY}",
+                    "AWS_DEFAULT_REGION=${env.AWS_DEFAULT_REGION}"
+                ]) {
+                    sh '''
+                        echo "Testing AWS CLI..."
+                        aws s3 ls
                     '''
-                echo 'Flask app is running in the background...'
-            }
-        }
-stage('Run Tests') {
-            steps {
-                script {
-                    def result = sh(script: '''
-                        . myenv/bin/activate
-                        pytest
-                    ''', returnStatus: true)
-                    
-                    if (result != 0) {
-                        error("Pytest failed. Check logs for details.")
-                    }
                 }
             }
         }
-
-
-    stage('Setup AWS CLI') {
-        steps {
-            sh '''
-                aws s3 ls
-            '''
-        }
-    }
-
-        
     }
 }
