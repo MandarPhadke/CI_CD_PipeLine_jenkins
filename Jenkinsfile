@@ -5,8 +5,8 @@ pipeline {
         stage('Setup Environment') {
             steps {
                 sh 'python3 -m venv myenv'
-                sh 'source myenv/bin/activate'
-                sh 'pip install pytest flask django '
+                sh '. myenv/bin/activate'
+                sh 'pip install pytest flask django'
             }
         }
 
