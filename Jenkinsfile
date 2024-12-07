@@ -6,8 +6,7 @@ pipeline {
             steps {
                 sh 'python3 -m venv myenv'
                 sh 'source myenv/bin/activate'
-                sh 'source myenv/bin/activate'
-                sh 'pip install -r requirements.txt'
+                sh 'pip install pytest flask django '
             }
         }
 
