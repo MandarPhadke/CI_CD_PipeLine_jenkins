@@ -20,7 +20,7 @@ pipeline {
                 sh '''
                     bash -c "
                     source myenv/bin/activate && 
-                    python -m flask run &
+                    python -m flask run
                     "
                     '''
             }
