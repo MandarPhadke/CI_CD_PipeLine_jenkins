@@ -4,15 +4,19 @@ pipeline {
     stages {
         stage('Setup Environment') {
             steps {
-                sh 'python3 -m venv myenv'
-                sh '. myenv/bin/activate'
-                sh 'pip install pytest flask django'
+                sh '''
+                    bash -c "
+                    python3 -m venv myenv &&
+                    source myenv/bin/activate &&
+                    pip install pytest flask django &&
+                    "
+                '''
             }
         }
 
         stage('Run Script') {
             steps {
-                sh 'python -m flask run'
+                sh 'source myenv/bin/activate && python -m flask run'
             }
         }
     }
