@@ -12,8 +12,7 @@ pipeline {
                     bash -c "
                     python3 -m venv myenv &&
                     source myenv/bin/activate &&
-                    pip install pytest flask django &&
-                    pip install -r requirements.txt
+                    pip install pytest flask django pyotp
                     "
                 '''
             }
