@@ -8,7 +8,6 @@ pipeline {
             steps {
                 echo 'Cleaning the workspace...'
                 deleteDir()  // Ensure the workspace is cleared
-                sh 'ls -la /var/jenkins_home/workspace/pk1-assignment-pipeline'  // Verify the cleanup
                 sh '''
                     bash -c "
                     python3 -m venv myenv &&
